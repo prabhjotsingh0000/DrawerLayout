@@ -14,6 +14,7 @@ import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final String MESSAGE_KEY = "message";
     private DrawerLayout mDrawerLayout;
 
     @Override
@@ -26,17 +27,16 @@ public class MainActivity extends AppCompatActivity {
         ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
-
         mDrawerLayout = findViewById(R.id.drawer_layout);
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        final MyFragment fragment = new MyFragment();
+        MyFragment fragment = new MyFragment();
         fragmentTransaction.add(R.id.content_frame, fragment);
 
         Bundle bundle = new Bundle();
-        bundle.putString("message", "One" );
+        bundle.putString(MESSAGE_KEY, "One" );
         fragment.setArguments(bundle);
         fragmentTransaction.commit();
 
@@ -53,10 +53,18 @@ public class MainActivity extends AppCompatActivity {
 
                         String title= menuItem.getTitle().toString();
 
-                        Bundle bundle = new Bundle();
-                        bundle.putString("message", title );
+                        Bundle newBundle = new Bundle();
+                        newBundle.putString(MESSAGE_KEY, title );
 
-                        fragment.updateTextView(bundle);
+
+                        FragmentManager newFragmentManager = getSupportFragmentManager();
+                        FragmentTransaction newFragmentTransaction = newFragmentManager.beginTransaction();
+
+                        MyFragment newFragment= new MyFragment();
+                        newFragmentTransaction.replace(R.id.content_frame, newFragment);
+
+                        newFragment.setArguments(newBundle);
+                        newFragmentTransaction.commit();
 
                         // Add code here to update the UI based on the item selected
                         // For example, swap UI fragments here

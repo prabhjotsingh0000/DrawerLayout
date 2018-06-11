@@ -13,6 +13,8 @@ import org.w3c.dom.Text;
 
 public class MyFragment extends Fragment {
 
+
+    public static final String MESSAGE_KEY = "message";
     TextView textView;
     @Nullable
     @Override
@@ -20,19 +22,12 @@ public class MyFragment extends Fragment {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_layout, container, false);
 
-        String title = this.getArguments().getString("message");
+        String title = this.getArguments().getString(MESSAGE_KEY);
 
         textView= (TextView) view.findViewById(R.id.title);
         textView.setText(title);
         return view;
 
-    }
-
-    public void updateTextView(Bundle bundle)
-    {
-        String title = bundle.getString("message");
-        textView.setText(title);
-        return;
     }
 
 }
